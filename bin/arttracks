@@ -3,7 +3,7 @@
 require 'art_tracks_utils'
 
 program :version, '0.0.1'
-program :description, 'A collection of helpful command line utilities for the Art Tracks project'
+program :description, 'A collection of helpful command line utilities for the Art Tracks project at the Carnegie Museum of Art.'
 
 default_command :help
 
@@ -16,6 +16,7 @@ command :acq do |c|
     puts MuseumProvenance::AcquisitionMethod.describe
   end
 end
+
 
 command :convert do |c|
   c.syntax = "arttracks convert <file> [options]"

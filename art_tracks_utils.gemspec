@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "art_tracks_utils"
   spec.version       = ArtTracksUtils::VERSION
   spec.authors       = ["David Newbury"]
-  spec.email         = ["david.newbury@gmail.com"]
+  spec.email         = ["newburyd@cmoa.org"]
   spec.summary       = "A collection of command line utilities for Art Tracks"
-  spec.description   = "yup."
-  spec.homepage      = ""
+  spec.description   = ""
+  spec.homepage      = "http://www.museumprovenance.com"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
