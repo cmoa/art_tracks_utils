@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+require 'art_tracks_utils'
+
+program :version, '0.0.1'
+program :description, 'A collection of helpful command line utilities for the Art Tracks project'
+
+command :acq do |c|
+  c.syntax = 'arttracks acq'
+  c.summary = ''
+  c.description = ''
+  c.action do |args, options|
+    enable_paging
+    puts MuseumProvenance::AcquisitionMethod.describe
+  end
+end
+
+command :import do |c|
+  c.syntax = 'arttracks import [options]'
+  c.summary = ''
+  c.description = ''
+  c.example 'description', 'command example'
+  c.option '--some-switch', 'Some switch that does something'
+  c.action do |args, options|
+    # Do something or c.when_called Art_track_utils::Commands::Import
+  end
+end
+
