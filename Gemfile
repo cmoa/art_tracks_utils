@@ -4,3 +4,4 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'museum_provenance', path: "../museum_provenance"
+gem 'art_tracks', path: "../art_tracks"

@@ -17,6 +17,19 @@ command :acq do |c|
   end
 end
 
+command :convert do |c|
+  c.syntax = "arttracks convert <file> [options]"
+  c.summary = "Convert a KE Emu export XML into JSON"
+  c.description = "This will take a standard KE export and convert it into our internal Art Tracks JSON format.\nIf a filename is not provided, it will create a file named after the type of export, located in the same directory as the XML file.\n\nCurrently, this supports events, things, and parties."
+  c.option '--intranet', "Use intranet URLs for images"
+  c.option '--output', String, "filename for JSON output"
+  c.action do |args, options|
+    options.default :intranet => false
+    art = ArtTracks::ArtTracks.new({verbose: $stdout.tty?, internal_images:  options.intranet})
+    art.kemu_xml_to_json(args.first, options.output)
+  end
+end
+
 command :disambiguate do |c|
   c.syntax = 'arttracks disambiguate <file> [options]'
   c.summary = 'Find potential duplicates within records.'

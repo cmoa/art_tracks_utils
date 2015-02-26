@@ -18,8 +18,11 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "commander"  
+
   spec.add_runtime_dependency "museum_provenance"  
+  spec.add_runtime_dependency "art_tracks"  
+
+  spec.add_runtime_dependency "commander"  
   spec.add_runtime_dependency 'damerau-levenshtein'
   spec.add_runtime_dependency 'ruby-progressbar'
 
