@@ -5,9 +5,11 @@ require 'art_tracks_utils'
 program :version, '0.0.1'
 program :description, 'A collection of helpful command line utilities for the Art Tracks project'
 
+default_command :help
+
 command :acq do |c|
   c.syntax = 'arttracks acq'
-  c.summary = ''
+  c.summary = 'List possible Acquisition Methods'
   c.description = ''
   c.action do |args, options|
     enable_paging
@@ -15,14 +17,15 @@ command :acq do |c|
   end
 end
 
-command :import do |c|
-  c.syntax = 'arttracks import [options]'
-  c.summary = ''
+command :disambiguate do |c|
+  c.syntax = 'arttracks disambiguate <file> [options]'
+  c.summary = 'Find potential duplicates within records.'
   c.description = ''
-  c.example 'description', 'command example'
-  c.option '--some-switch', 'Some switch that does something'
+  c.option '--distance NUMBER', Integer,'Levenshtein distance to check'
   c.action do |args, options|
-    # Do something or c.when_called Art_track_utils::Commands::Import
+    options.default :distance => 1
+    #enable_paging
+    ArtTracksUtils::Disambiguator.scan(args.first, options.distance)
   end
 end
 
