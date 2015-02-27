@@ -3,6 +3,11 @@ require 'ruby-progressbar'
 require 'damerau-levenshtein'
 
 module ArtTracksUtils
+
+## For a given JSON file, return a list of items that are duplicates, or near duplicates.  
+## By default, it will look for objects at a levenshtein distance of 1—by passing in a 
+## distance number, it will return objects at that distance.
+
 class Disambiguator
 
   def Disambiguator.scan(file, distance)
@@ -42,9 +47,9 @@ class Disambiguator
       end
     end
     
-    name_hash.sort.each do |key,val|
-      puts "#{key} -> #{val}" if val.count > 0
-    end
+    name_hash.sort.collect do |key,val|
+      "#{key} -> #{val}" if val.count > 0
+    end.join("\n")
   end
 end
 end

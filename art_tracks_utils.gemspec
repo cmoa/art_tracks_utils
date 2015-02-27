@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "commander"  
   spec.add_runtime_dependency 'damerau-levenshtein'
   spec.add_runtime_dependency 'ruby-progressbar'
+  spec.add_runtime_dependency "elasticsearch"  
 
   spec.add_development_dependency "bundler", "~> 1.6"
   spec.add_development_dependency "rake"

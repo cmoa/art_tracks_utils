@@ -4,6 +4,7 @@ require 'art_tracks_utils'
 
 program :version, '0.0.1'
 program :description, 'A collection of helpful command line utilities for the Art Tracks project at the Carnegie Museum of Art.'
+program :help_formatter, :compact
 
 default_command :help
 
@@ -18,16 +19,42 @@ command :acq do |c|
 end
 
 
+command :locations do |c|
+  c.syntax = 'arttracks locations <filename> <irns or accession numbers>'
+  c.summary = 'List provenance locations within a list of works'
+  c.description = ''
+  c.action do |args, options|
+    file = args.shift
+    puts ArtTracksUtils::LocationList.list(file,args)
+  end
+end
+
+
 command :convert do |c|
   c.syntax = "arttracks convert <file> [options]"
   c.summary = "Convert a KE Emu export XML into JSON"
-  c.description = "This will take a standard KE export and convert it into our internal Art Tracks JSON format.\nIf a filename is not provided, it will create a file named after the type of export, located in the same directory as the XML file.\n\nCurrently, this supports events, things, and parties."
+  c.description = "This will take a standard KE export and convert it into our internal Art Tracks\nJSON format.If a filename is not provided, it will create a file named after\nthe type of export, located in the same directory as the XML file.\n\nCurrently, this supports events, things, and parties."
   c.option '--intranet', "Use intranet URLs for images"
   c.option '--output', String, "filename for JSON output"
   c.action do |args, options|
     options.default :intranet => false
     art = ArtTracks::ArtTracks.new({verbose: $stdout.tty?, internal_images:  options.intranet})
     art.kemu_xml_to_json(args.first, options.output)
+  end
+end
+
+command :import do |c|
+  c.syntax = "arttracks import <directory> [options]"
+  c.summary = "Import the generated data files into the Elysa search."
+  c.option '--purge', "delete all existing content before importing this"
+  c.action do |args, options|
+    options.default :purge => false
+    begin
+      importer = ArtTracksUtils::ElysaImport.new
+      importer.import(args.first,options.purge)
+    rescue Faraday::ConnectionFailed
+      puts "Please make sure that the Elysa server is running before importing."
+    end
   end
 end
 
@@ -39,7 +66,7 @@ command :disambiguate do |c|
   c.action do |args, options|
     options.default :distance => 1
     #enable_paging
-    ArtTracksUtils::Disambiguator.scan(args.first, options.distance)
+    puts ArtTracksUtils::Disambiguator.scan(args.first, options.distance)
   end
 end
 
