@@ -86,7 +86,7 @@ module ArtTracksUtils
 
       ## (Re)create DB
       unless @client.indices.exists(index: 'cmoa_provenance')
-        @client.indices.create index: 'cmoa_provenance', body: prov_settings.to_h
+        @client.indices.create index: 'cmoa_provenance', body: @prov_settings.to_h
       end
 
       import_things(json_location+"thing.json")
@@ -139,7 +139,7 @@ module ArtTracksUtils
 
     # Find all the things
     def import_things(file)
-      @things = File.open( file, "r" ) { |f| JSON.load( f )}["thing"].compact
+      @things = File.open( file, "r" ) { |f| JSON.load( f )}["thing"].compact rescue nil
 
       #things =  File.open( file, "r" ) { |f| JSON.load( f )}["thing"]
       # bar = ProgressBar.create(:title => "Parsing Things", :starting_at => 0, :total => things.count)
@@ -154,9 +154,10 @@ module ArtTracksUtils
     #--------------------------------------------------------------------------
     # Find all the people
     def import_parties(file)
-      @parties =  File.open( file, "r" ) { |f| JSON.load( f )}["party"]
-      bar = ProgressBar.create(:title => "Indexing Parties", :starting_at => 0, :total => @parties.count)
+      @parties =  File.open( file, "r" ) { |f| JSON.load( f )}["party"]  rescue nil
       @party_index = {}
+      return unless @parties
+      bar = ProgressBar.create(:title => "Indexing Parties", :starting_at => 0, :total => @parties.count)
       @parties.each do |p| 
          id = p["id"]
          @party_index[id] = p
@@ -167,7 +168,8 @@ module ArtTracksUtils
     #--------------------------------------------------------------------------
     # Find all the events
     def import_events(file)
-      @events =  File.open( file, "r" ) { |f| JSON.load( f )}["event"]
+      @events =  File.open( file, "r" ) { |f| JSON.load( f )}["event"] rescue {}
+      return unless @events.count
       bar = ProgressBar.create(:title => "Indexing Events", :starting_at => 0, :total => @events.count)
       @events.each do |event| 
         id = event["id"]
