@@ -75,7 +75,9 @@ module ArtTracksUtils
           index: "no"
         }
       }
-      @client = Elasticsearch::Client.new log: false
+#     @client = Elasticsearch::Client.new log: false
+      @client = Elasticsearch::Client.new(log: false, host: 'http://paas:0f20bafabb05ae834c10a54b02ae955b@fili-us-east-1.searchly.com')
+
     end
 
     def import(json_location = "data/", purge = false)
