@@ -12,12 +12,32 @@ command :acq do |c|
   c.syntax = 'arttracks acq'
   c.summary = 'List possible Acquisition Methods'
   c.description = ''
+
   c.action do |args, options|
     enable_paging
     puts MuseumProvenance::AcquisitionMethod.describe
   end
 end
 
+command :download do |c|
+  c.syntax = 'arttracks download <local_directory>'
+  c.summary = 'download most recent files from the CMOA FTP server'
+  c.option '--user USERNAME', "the username for the FTP server"
+  c.option '--password PASSWORD', "the password for the FTP server"
+  c.option '--host SERVER', "the URL for the server"
+  c.option '--directory DIRECTORY', "the directory for the server"
+  c.option '--type TYPE', "a specific type of record to download"
+  c.option '--xml', "save the XML files as well"
+    
+  c.action  do |args, options|
+  options.default :host => 'ftp.carnegiemuseums.org'
+  options.default :directory => 'cma-outbox'
+  options.default :user => ENV["CMOA_FTP_USERNAME"]
+  options.default :password => ENV["CMOA_FTP_PASSWORD"]
+  options.default :xml => false
+    ArtTracksUtils::SftpDownloader.download(args.first,options)
+  end
+end
 
 command :locations do |c|
   c.syntax = 'arttracks locations <filename> <irns or accession numbers>'
