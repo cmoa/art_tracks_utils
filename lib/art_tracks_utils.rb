@@ -1,5 +1,4 @@
 require "art_tracks_utils/version"
-require 'commander/import'
 require 'museum_provenance'
 require 'art_tracks'
 

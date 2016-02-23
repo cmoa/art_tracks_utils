@@ -42,7 +42,7 @@ module ArtTracksUtils
         files.each do |key,val|
           output_file = nil
           if opts.xml
-            output_file = File.new("#{directory}#{key.to_s}.xml", "wb")
+            output_file = File.new("#{directory}/#{key.to_s}.xml", "wb")
           else
             output_file = Tempfile.new(key.to_s)
           end

@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'art_tracks_utils'
+require 'commander/import'
 
 program :version, '0.0.1'
 program :description, 'A collection of helpful command line utilities for the Art Tracks project at the Carnegie Museum of Art.'
